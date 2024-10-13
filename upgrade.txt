@@ -1,0 +1,17 @@
+sound effects, dice movements,pawn movements, button click
+back safety
+starting six
+rounds
+bigger cards, bugs it flies off
+notifications for buying
+bigger radius for moving pawn
+back dugme radi i tokom kretanja piuna
+to show better where you can move
+modifikacija za are you sure to exit,dizajn
+back: izalzi kad kliknes nevidljivo Yes
+obavestenje da je igrac izgubio
+nakon sto je igrac izgubio da se preskace
+
+hover fabrik
+Tutorial
+

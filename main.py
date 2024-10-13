@@ -1,6 +1,6 @@
 import pygame
-from proba1 import Player
-import proba1
+from entity import Player
+import entity
 import random
 import asyncio
 import os
@@ -32,6 +32,8 @@ FPS = 60
 #font
 pygame.font.init()
 textFont60 = pygame.font.SysFont("arial",60)
+textFont20 = pygame.font.SysFont("arial",20)
+textFont10 = pygame.font.SysFont("arial",10)
 
 #pictures
 shopImage1 = pygame.image.load( os.path.join("assets","factory.png") )
@@ -50,26 +52,28 @@ tutorial14 = pygame.image.load(os.path.join("assets","tutorial14.png"))
 tutorial05 = pygame.image.load(os.path.join("assets","tutorial05.png"))
 tutorial06 = pygame.image.load(os.path.join("assets","tutorial06.png"))
 tutorial07 = pygame.image.load(os.path.join("assets","tutorial07.png"))
+sponsor = pygame.image.load(os.path.join("assets","EuropeanUnion.png"))
+sponsorWidth, sponsorHeight = sponsor.get_size()
+sponsorRatio = sponsorWidth/sponsorHeight
 
-#proba
+#igraci
 p1 = Player("Player1",0,0,0,30,30,(120,120,200))
 p2 = Player("Player2",7,0,0,970,30,(120,200,120))
 p3 = Player("Player3",14,0,0,970,470,(200,120,120))
 p4 = Player("Player4",21,0,0,30,470,(200,60,200))
-
 players = [p1,p2,p3,p4]
 numOfPlayers = len(players)
 
 #shop
-fac1 = proba1.Factory("Fabrika1",False,3,5,3,100,50,shopImage1)
-fac2 = proba1.Factory("Fabrika2",False,5,3,3,100,50,shopImage2)
-fac3 = proba1.Factory("Fabrika3",False,3,3,5,100,50,shopImage3)
-fac4 = proba1.Factory("Fabrika4",True,0,0,1,150,50,shopImage4)
-fac5 = proba1.Factory("Fabrika5",True,0,1,0,150,50,shopImage5)
-fac6 = proba1.Factory("Fabrika6",True,1,0,0,150,50,shopImage6)
+fac1 = entity.Factory("Fabrika1",False,3,5,3,100,50,shopImage1)
+fac2 = entity.Factory("Fabrika2",False,5,3,3,100,50,shopImage2)
+fac3 = entity.Factory("Fabrika3",False,3,3,5,100,50,shopImage3)
+fac4 = entity.Factory("Fabrika4",True,0,0,1,150,50,shopImage4)
+fac5 = entity.Factory("Fabrika5",True,0,1,0,150,50,shopImage5)
+fac6 = entity.Factory("Fabrika6",True,1,0,0,150,50,shopImage6)
 shopList = [fac1,fac2,fac3,fac4,fac5,fac6]
 
-shop = proba1.Shop(shopList,WIDTH,HEIGHT)
+shop = entity.Shop(shopList,WIDTH,HEIGHT)
 
 #question cards
 questions = [      ["What does \"circular economy\" mean?", 'A', 400, ['A circle of money', 'Reusing resources and making less waste', 'A round table discussion about economy', 'An economy where everything costs the same'], '2'],
@@ -83,7 +87,7 @@ questions = [      ["What does \"circular economy\" mean?", 'A', 400, ['A circle
 quesDeck = []
 for i in questions:
     i[1] = 'B'
-    q = proba1.Question(i[0],i[1],i[2],i[3],i[4])
+    q = entity.Question(i[0],i[1],i[2],i[3],i[4])
     q.setAnswerCord()
     quesDeck.append(q)
 
@@ -97,7 +101,7 @@ invests = [
 
 invDeck = []
 for i in invests:
-    ness = proba1.Good(i[0],i[1],i[2])
+    ness = entity.Good(i[0],i[1],i[2])
     invDeck.append(ness)
 
 destroys = [
@@ -109,7 +113,7 @@ destroys = [
 ]
 destroyDeck = []
 for i in destroys:
-    d = proba1.Destroy(i[0],i[1],i[2])
+    d = entity.Destroy(i[0],i[1],i[2])
     destroyDeck.append(d)
 
 facts = ["Buzzing Business! Did you know some eco-entrepreneurs start beekeeping businesses? Bees help plants grow and their honey is sweet money!",
@@ -125,14 +129,14 @@ facts = ["Buzzing Business! Did you know some eco-entrepreneurs start beekeeping
 
 factsDeck = []
 for i in facts:
-    f = proba1.Fact(i)
+    f = entity.Fact(i)
     factsDeck.append(f)
 
-deck = proba1.Deck(quesDeck,factsDeck,destroyDeck,invDeck)
+deck = entity.Deck(quesDeck,factsDeck,destroyDeck,invDeck)
 
-game = proba1.Game(map,players,shop,deck)
+game = entity.Game(map,players,shop,deck)
 
-dice = proba1.Dice()
+dice = entity.Dice()
 dice.ini(WIDTH/2-dice.cubes[0].get_width()/2,HEIGHT/2-2.5*HEIGHT/10-dice.cubes[0].get_height()/2)
 
 show_text = False
@@ -141,8 +145,8 @@ start_time = 0
 backAreYouSure = False
 
 #buttons for Yes No, when back is clicked
-btnYes = proba1.button("Yes",WIDTH/2-135,HEIGHT/2+100,90,60,color = [(200,80,80),(140,70,70),(110,60,60)])
-btnNo = proba1.button("No",WIDTH/2+45,HEIGHT/2+100,90,60,color = [(200,80,80),(140,70,70),(110,60,60)])
+btnYes = entity.button("Yes",WIDTH/2-135,HEIGHT/2+100,90,60,color = [(200,80,80),(140,70,70),(110,60,60)])
+btnNo = entity.button("No",WIDTH/2+45,HEIGHT/2+100,90,60,color = [(200,80,80),(140,70,70),(110,60,60)])
 buttonExit = False
 
 #quick fixes
@@ -173,7 +177,7 @@ def backGround(window,color,cordinates,list,num=0,num1=0):
             backG -= list[i]
             i -= 1
         pygame.draw.rect(window,color[0],cordinates,num,num1)
-btn = proba1.button("Back",250,720,90,60)
+btn = entity.button("Back",250,720,90,60)
 
 async def play(players,map):
     numberOfTurns = 21
@@ -204,7 +208,7 @@ async def play(players,map):
             cardR.draw(WIN)
 
         btn.draw(WIN)
-        btn1 = proba1.button("Rounds: "+str(numberOfTurns),750,720,180,60)
+        btn1 = entity.button("Rounds: "+str(numberOfTurns),750,720,180,60)
         btn1.draw(WIN)
 
         if buttonExit:
@@ -221,7 +225,7 @@ async def play(players,map):
             WIN.blit(textLabel,(WIDTH/2-textLabel.get_width()/2,HEIGHT/2-textLabel.get_height()/2))
 
         if winner==True:
-            proba1.drawWinner(WIN,winnerList)
+            entity.drawWinner(WIN,winnerList)
 
 
         pygame.display.update()
@@ -361,7 +365,7 @@ async def play(players,map):
         
         numberOfTurns -= 1
         if numberOfTurns <= 0:
-            messages = proba1.winnerMessage(players,initialBank)
+            messages = entity.winnerMessage(players,initialBank)
             draw(roll1,shopList,numberOfTurns,winnerList = messages, winner = True)
             roll = await mouseReaction(player)
             continue
@@ -459,7 +463,7 @@ async def play(players,map):
         
 async def tutorial(players,map):
     run = True
-    btn = proba1.button("Back",250,720,90,60)
+    btn = entity.button("Back",250,720,90,60)
     roll = [1]
     numberOfTurns = 20
     buttonExit = False
@@ -488,7 +492,7 @@ async def tutorial(players,map):
             cardR.draw(WIN)
 
         btn.draw(WIN)
-        btn1 = proba1.button("Rounds: "+str(numberOfTurns),750,720,180,60)
+        btn1 = entity.button("Rounds: "+str(numberOfTurns),750,720,180,60)
         btn1.draw(WIN)
 
         if tutorial != None:
@@ -508,7 +512,7 @@ async def tutorial(players,map):
             WIN.blit(textLabel,(WIDTH/2-textLabel.get_width()/2,HEIGHT/2-textLabel.get_height()/2))
 
         if winner==True:
-            proba1.drawWinner(WIN,winnerList)
+            entity.drawWinner(WIN,winnerList)
 
         
 
@@ -593,7 +597,7 @@ async def main_menu():
     run = True
     mMW = 250
     mMH = 250
-    mainMenu = proba1.setButton(["Two Players","Three Players","Four Players","How to play"],WIDTH/2-mMW/2,400,mMW,mMH)
+    mainMenu = entity.setButton(["Two Players","Three Players","Four Players","How to play"],WIDTH/2-mMW/2,400,mMW,mMH)
     p1 = Player("Player1",0,0,0,30,30,(120,120,200))
     p2 = Player("Player2",7,0,0,970,30,(120,200,120))
     p3 = Player("Player3",14,0,0,970,470,(200,120,120))
@@ -603,21 +607,86 @@ async def main_menu():
 
     textLabel = textFont60.render("Ecopol",1,(255,255,255))
 
-    map = proba1.Map(0)
+    # Pre-render disclaimer once at the start
+    
+    disclaimerLines = [
+        "Funded by the European Union. Views and opinions expressed are however those of ",
+        "the author(s) only and do not necessarily reflect those of the European Union or ",
+        "the European Education and Culture Executive Agency (EACEA). Neither the European ",
+        "Union nor EACEA can be held responsible for them."
+    ]
+    disclaimerSurfaces = [textFont10.render(line.strip() + '.', True, (0, 0, 0)) for line in disclaimerLines]
+
+    map = entity.Map(0)
     map.createBasic()
     map.printMap()
     print(map.outside[20].label)
     map.setField()
 
+    async def drawText(message, wordCount,position,lineHeight,WIN):
+        black = (0,0,0)
+
+        stringTokens = message.split(" ")
+        currLineHeight = 0
+
+        offsetIndex = 0
+        stringLabel = ""
+        while True:
+            stringLabel = ""
+            for i in range(wordCount):
+                if len(stringTokens)==offsetIndex+i:
+                    break
+                stringLabel+=stringTokens[offsetIndex+i]+" "
+            offsetIndex+=wordCount
+            if len(stringTokens)<=offsetIndex:
+                    break
+            
+            text = textFont10.render(stringLabel,True,black)
+            WIN.blit(text,(position[0],position[1]+currLineHeight))
+            currLineHeight+=lineHeight
+            await asyncio.sleep(0)
+
+        if stringLabel!="":
+            text = textFont10.render(stringLabel,True,black)
+            WIN.blit(text,(position[0],position[1]+currLineHeight))
+            currLineHeight+=lineHeight
+        
+        pygame.display.update()
+            
+
+
+
+
     def draw():
+        
+
+        
+
+        
         WIN.fill((200,200,200))
+
+        disclaimer = textFont20.render("DISCLAIMER",True,(0,0,0))
+        WIN.blit(disclaimer,(80,70))
+        
+        y_offset = 90  # Starting y position for the disclaimer text
+        for line_surface in disclaimerSurfaces:
+            WIN.blit(line_surface, (20, y_offset))
+            y_offset += line_surface.get_height() + 5
+        
         WIN.blit(squirrelLogo,(WIDTH/2-squirrelLogo.get_width()/2,-120))
+        WIN.blit(pygame.transform.scale(sponsor,(sponsorRatio*50,50)),(15,15))
+        
         #proba1.backText(WIN,"Ecopol",60,[(140,200,140),(130,180,130),(90,90,90)],(WIDTH/2,mainMenu.y+mainMenu.height+30),[50,50])
         WIN.blit(textLabel,(WIDTH/2-textLabel.get_width()/2,mainMenu.y+mainMenu.height+30))
         mainMenu.draw(WIN)
         pygame.display.update()
+
     while run:
         draw()
+        #disclaimerExtended = "Funded by the European Union. Views and opinions expressed are however those of the author(s) only and do not necessarily reflect those of the European Union or the European Education and Culture Executive Agency (EACEA). Neither the European Union nor EACEA can be held responsible for them."
+        #await drawText(disclaimerExtended,10,(20,90),8,WIN)
+        
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()  
